@@ -1,0 +1,102 @@
+Site Replication Transition
+
+username v1integration
+password defy53@olive
+
+HOST=dplutladm1.ddtc.cmgdigital.com
+IP=10.188.11.61
+
+POC (Proof Of Concept)
+HOST=AUSV1ATL-POCEDI.em-cmg.ausv.int
+IP=10.243.230.7
+
+
+-------------------------------------------------------------------------------------------------------------------------------------------
+
+/var/www/html/replication/in
+logs_to_html.sh ---------------------------------------------- changes logs from text to html for easy reading
+when_file_changed.sh ----------------------------------------  monitor myValues file changes  trigger  site-replication.sh (most likely will need to be set-up in some cron)
+email_site_replication_notice_failure.php -------------------- send a failure message to stakeholder
+email_site_replication_notice_success.php -------------------- send a success message to stakeholder 
+
+-------------------------------------------------------------------------------------------------------------------------------------------  
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+/var/www/html/replication
+site-replication.php  ---------------------------- PHP script collect data from site https://dplutladm1.ddtc.cmgdigital.com/replication/site-replication.html   
+site-replication.html --------------------------- HTML PAGE https://dplutladm1.ddtc.cmgdigital.com/replication/site-replication.html
+site-replication.sh ----------------------------- Main BASH SCRIPT site-replication.sh
+site_replication_login.html -------------------- login screen (work in progress, u can have user login then add logic to parse the server.xml to add element in dropdown box Market Vertical Dynamically
+----------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+#Task/s which are on-going 
+1 add logic to transitionn to root folder <name>_bkfiles directory to make updates
+2 add logic to check if object error out on import
+3 add logic to revert back changes before object failed to import 
+4 continue testing Good site to verify script for syntax errors http://www.shellcheck.net/ or you can do bash -n <name_of_script> from command line 
+5 test importing meta and system_metadata
+
+#GOAL - Export object from eomdb update object and import object content | meta | system_metadata 
+1 import content proven successfully
+2 import meta on-going
+3 import system_metadata on-going
+
+Utility
+BASH-meth01@AUSV1ATL-POCEDI.em-cmg.ausv.int /methode/meth01 (POC)# eomutil
+eomutil version 6.0.4.3 - Copyright (c) 2000-2012 EidosMedia S.p.A.
+
+usage: eomutil <commands>
+
+commands:
+   action       - allows system administrator to call actions on one object or recursively on a folder.
+   align        - aligns one or more master databases to their slave counterparts.
+   attribute    - sets, clears and reads an object's or folder's attributes and system attributes.
+   backup       - instructs the eomdb to enter and resume the backup state.
+   clean        - cleans old user's tasks.
+   compact      - deletes old versions of a object.
+   copy         - copies one object on a different location on the same database.
+   correlate    - correlates one object to a list of objects or lists the correlation links for an object.
+   delete        - deletes an object or folder (It does not put it in recycle).
+   description  - sets the description field for an object or a user.
+   dir          - lists the content of a folder.
+   dre          - is an administration utility for Autonomy.
+   du           - calculates disk usage for external filesystems.
+   empty        - cleans users recycle bins.
+   exists       - checks for existence of an object on the database.
+   export       - exports files and folders from the database, together with their metadata.
+   find         - locates objects deeply into the database folder structure.
+   getpath      - obtains the path of the object the current action is run onto.
+   import       - imports folders and files from the local filesystem into database.
+   index        - indexes documents and is able to re-sync eomdb content versus search engine indexes.
+   info         - dumps an object or one of its versions information.
+   links        - examines plans imported with PlanImport and displays the links of a print page, edition or plan.
+   lock         - locks a filesystem object (file or folder).
+   login        - performs a login into database and leaves the session active.
+   logout       - closed the session open with login command.
+   mail         - sends a message or mail throughout the Methode Messaging System.
+   map          - tries to map an external filesystem reference in the form AAAA/BBBB/CCCC/DDDD into object paths.
+   meta         - changes an object's metadata.
+   mkdir        - creates a folder into the database.
+   move         - moves an object or folder on a different path onto the same database.
+   objref       - retrieves an object IOR from its path.
+   perms        - dumps the permission table (ACL) associated to every database object .
+   query        - sends a query to the search-engine and writes back the result set onto standard output.
+   rename       - renames an object or folder to a different name.
+   replicate    - copies data from one database to another.
+   restore      - restoring objects from recycle bin.
+   sanitize     - identifies and resolves the situations where you can have dangling external file objects.
+   sessions     - lists the applications that have open sessions.
+   setmsg       - displays a message when a user manually runs an action over an object
+   setstatus    - sets the workflow status of an object.
+   settype      - sets the internal of an object, user or group.
+   ticket       - reads, writes, clears (even partially) or update usage tickets.
+   type         - updates the types according to the current status of configuration.
+   unlock       - unlocks a locked objects.
+   users        - creates/updates users, giving them proper attributes and adding them to pertinent groups.
+   version      - retrieves eomdb version.
+   wipeout      - checks for users' activity on the database, scanning user's profile and work folders.
+   xt           - applies a user-specified XSL file to the search engine XML query strings and saves them.
+
+
